@@ -37,6 +37,6 @@ export class ShoesComponent {
       },
     ];
 
-    this._shoeService.getAll().subscribe((products) => (this.shoes = products));
+    this._shoeService.getAll().subscribe((res) => (this.shoes = res.data));
   }
 }
