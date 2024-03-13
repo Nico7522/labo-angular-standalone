@@ -1,1 +1,26 @@
-<p>shoes works!</p>
+<div class="card">
+    <p-carousel [value]="shoes" [numVisible]="3" [numScroll]="3" [circular]="false" [responsiveOptions]="responsiveOptions">
+        <ng-template pTemplate="header">
+            <h1>Produits les plus appréciés !</h1>
+        </ng-template>
+        <ng-template let-product pTemplate="item">
+            <div class="border-1 surface-border border-round m-2 text-center py-5 px-3">
+                <div class="mb-3">
+                    <img src="{{img_url}}/images{{ product.image }}" [alt]="product.name" class="w-6 shadow-2" />
+                </div>
+                <div>
+                    <h4 class="mb-1">{{ product.name }}</h4>
+                    <h5 class="mt-0 mb-3">{{ product.price | currency: 'EUR' }}</h5>
+                    <p-tag value="En stock" severity="succes"></p-tag>
+                    <div class="mt-5 flex align-items-center justify-content-center gap-2">
+                        <p-button icon="pi pi-eye" [rounded]="true" />
+                        <p-button icon="pi pi-star-fill" [rounded]="true" severity="secondary" />
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <p-button class="btn">Voir plus</p-button>
+        </ng-template>
+    </p-carousel>
+</div>
