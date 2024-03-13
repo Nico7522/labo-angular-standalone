@@ -1,12 +1,61 @@
-import { Component } from '@angular/core';
-
+import { Component, inject } from '@angular/core';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { InputMaskModule } from 'primeng/inputmask';
+import { PasswordModule } from 'primeng/password';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [],
+  imports: [
+    InputGroupAddonModule,
+    InputGroupModule,
+    InputTextModule,
+    ButtonModule,
+    InputMaskModule,
+    ReactiveFormsModule,
+    PasswordModule,
+  ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
+  registerForm!: FormGroup;
+  private _emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+  private _pswRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+  private _formBuilder = inject(FormBuilder);
+  private _httpClient = inject(HttpClientModule);
+  ngOnInit() {
+    this.registerForm = this._formBuilder.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.email,
+          Validators.pattern(this._emailRegex),
+        ],
+      ],
+      birthdate: ['', Validators.required],
+      phoneNumber: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.pattern(this._pswRegex)]],
+    });
+  }
 
+  createAccount() {
+    if (this.registerForm?.valid) {
+      console.log(this.registerForm?.get('phoneNumber')?.value);
+    } else {
+      console.log(this.registerForm?.errors);
+    }
+  }
 }

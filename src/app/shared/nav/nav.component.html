@@ -3,9 +3,16 @@
         <img src="https://primefaces.org/cdn/primeng/images/primeng.svg" height="40" class="mr-2" />
     </ng-template>
     <ng-template pTemplate="end">
-        <p-button (onClick)="openLoginModal(true)" severity="success" size="small" pRipple label="Se connecter" class="p-button-success">
-            <ng-icon size="1.5em" [svg]="icon"/>
-        </p-button>  
+ 
+        <div class="auth">
+            <p-button (onClick)="openLoginModal(true)" severity="success" size="small" pRipple label="Se connecter" class="p-button-success">
+                <ng-icon size="1em" [svg]="loginIcon"/>
+            </p-button>  
+            <p-button routerLink="/register" severity="success" size="small" pRipple label="Créer un compte" class="p-button-success">
+                <ng-icon size="1em" [svg]="registerIcon"/>
+            </p-button> 
+
+        </div>
 
     </ng-template>
 </p-menubar>

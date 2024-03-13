@@ -1,0 +1,19 @@
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  width: 50%;
+}
+
+p-button {
+  padding: 10px;
+}
+
+p-inputGroup {
+  padding-top: 5px;
+}
+
+p-inputmask {
+  width: 100%;
+}

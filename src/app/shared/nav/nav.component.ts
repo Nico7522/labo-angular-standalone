@@ -6,6 +6,7 @@ import { items } from '../navigation';
 import { RouterModule } from '@angular/router';
 import { DialogService } from '../../services/dialog.service';
 import { matLogInOutline } from '@ng-icons/material-icons/outline';
+import { bootstrapPersonAdd } from '@ng-icons/bootstrap-icons';
 import { NgIconComponent } from '@ng-icons/core';
 @Component({
   selector: 'app-nav',
@@ -18,7 +19,8 @@ export class NavComponent {
   _dialogService = inject(DialogService);
   dialogState: boolean | undefined;
   items: MenuItem[] | undefined;
-  icon = matLogInOutline;
+  loginIcon = matLogInOutline;
+  registerIcon = bootstrapPersonAdd;
 
   ngOnInit() {
     this.items = items;
