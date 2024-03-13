@@ -1,47 +1,82 @@
-import { MenuItem } from 'primeng/api';
-const categories = [
+import { MenuItem, PrimeIcons } from 'primeng/api';
+
+const shoesCategories = [
+  {
+    label: 'Voir tout',
+    routerLink: 'shoes',
+    icon: 'pi pi-fw pi-eye',
+  },
   {
     label: 'Femme',
-    icon: 'pi pi-fw pi-bookmark',
+    icon: 'women-icon',
   },
   {
     label: 'Homme',
-    icon: 'pi pi-fw pi-video',
+    icon: 'man-icon',
   },
 ];
+
+const pantsCategories = [
+  {
+    label: 'Voir tout',
+    routerLink: 'pants',
+    icon: 'pi pi-fw pi-eye',
+  },
+  {
+    label: 'Femme',
+    icon: 'women-icon',
+  },
+  {
+    label: 'Homme',
+    icon: 'man-icon',
+  },
+];
+
+const shirtsCategories = [
+  {
+    label: 'Voir tout',
+    routerLink: 'shirts',
+    icon: 'pi pi-fw pi-eye',
+  },
+  {
+    label: 'Femme',
+    icon: 'women-icon',
+  },
+  {
+    label: 'Homme',
+    icon: 'man-icon',
+  },
+];
+
 export const items: MenuItem[] = [
   {
     label: 'Articles',
-    icon: 'pi pi-fw pi-file',
+    icon: PrimeIcons.SHOPPING_BAG,
     items: [
       {
         label: 'Baskets',
-        icon: 'pi pi-fw pi-plus',
-        items: categories,
+        items: shoesCategories,
       },
       {
         label: 'Pantalons',
-        icon: 'pi pi-fw pi-trash',
-        items: categories,
-      },
-      {
-        label: 'Pulls',
-        icon: 'pi pi-fw pi-external-link',
-        items: categories,
+        items: pantsCategories,
       },
       {
         label: 'T-shirts',
-        icon: 'pi pi-fw pi-external-link',
-        items: categories,
+        items: shirtsCategories,
+      },
+      {
+        label: 'Pulls',
+        // items: categories,
       },
     ],
   },
   {
     label: 'Nouveautés',
-    icon: 'pi pi-fw pi-pencil',
+    icon: PrimeIcons.INFO,
   },
   {
     label: 'Prochainement',
-    icon: 'pi pi-fw pi-user',
+    icon: PrimeIcons.PLUS,
   },
 ];

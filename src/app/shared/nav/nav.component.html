@@ -3,6 +3,9 @@
         <img src="https://primefaces.org/cdn/primeng/images/primeng.svg" height="40" class="mr-2" />
     </ng-template>
     <ng-template pTemplate="end">
-        <p-button (onClick)="openLoginModal(true)" severity="success" size="small" pRipple label="Se connecter" class="p-button-success"></p-button>    
+        <p-button (onClick)="openLoginModal(true)" severity="success" size="small" pRipple label="Se connecter" class="p-button-success">
+            <ng-icon size="1.5em" [svg]="icon"/>
+        </p-button>  
+
     </ng-template>
 </p-menubar>
