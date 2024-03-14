@@ -5,12 +5,18 @@
     <ng-template pTemplate="end">
  
         <div class="auth">
-            <p-button (onClick)="openLoginModal(true)" severity="success" size="small" pRipple label="Se connecter" class="p-button-success">
-                <ng-icon size="1em" [svg]="loginIcon"/>
-            </p-button>  
-            <p-button routerLink="/register" severity="success" size="small" pRipple label="Créer un compte" class="p-button-success">
-                <ng-icon size="1em" [svg]="registerIcon"/>
-            </p-button> 
+            @if (isLogged) {
+                <p-button (onClick)="logout()" severity="success" size="small" pRipple label="Se Déconnecter" class="p-button-success">
+                    <ng-icon size="1em" [svg]="loginIcon"/>
+                </p-button>
+            } @else {
+                <p-button (onClick)="openLoginModal(true)" severity="success" size="small" pRipple label="Se connecter" class="p-button-success">
+                    <ng-icon size="1em" [svg]="loginIcon"/>
+                </p-button>  
+                <p-button routerLink="/register" severity="success" size="small" pRipple label="Créer un compte" class="p-button-success">
+                    <ng-icon size="1em" [svg]="registerIcon"/>
+                </p-button> 
+            }
 
         </div>
 

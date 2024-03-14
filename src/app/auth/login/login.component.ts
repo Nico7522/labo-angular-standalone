@@ -15,6 +15,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { catchError, of } from 'rxjs';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -32,9 +34,11 @@ import {
 })
 export class LoginComponent {
   _dialogService = inject(DialogService);
+  _authService = inject(AuthService);
   _messageService = inject(MessageService);
   private _emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   private _pswRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+  error: string | undefined;
   _formBuilder = inject(FormBuilder);
   loginForm!: FormGroup;
   formHasErrorAndTouched = hasErrorAndTouched;
@@ -57,6 +61,12 @@ export class LoginComponent {
   }
 
   login() {
+    if (this.loginForm.valid) {
+      this._authService.login(this.loginForm.value).subscribe({
+        next: (token) => console.log(token),
+        error: (err) => console.log(err),
+      });
+    }
     this._messageService.add({
       severity: 'success',
       summary: 'Bienvenue !',
