@@ -5,7 +5,10 @@ form {
   margin: auto;
   width: 50%;
 }
-
+.formgrid,
+.grid {
+  width: 100%;
+}
 p-button {
   padding: 10px;
 }
@@ -14,6 +17,14 @@ p-inputGroup {
   padding-top: 5px;
 }
 
+.col {
+  padding: 0;
+}
+
 p-inputmask {
   width: 100%;
+}
+
+.field {
+  margin-bottom: 0px;
 }

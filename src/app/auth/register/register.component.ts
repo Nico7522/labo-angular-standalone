@@ -5,6 +5,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { InputMaskModule } from 'primeng/inputmask';
 import { PasswordModule } from 'primeng/password';
+import { MessagesModule } from 'primeng/messages';
 import {
   FormBuilder,
   FormGroup,
@@ -12,6 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { hasErrorAndTouched } from '../../utils/utils';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -23,16 +25,18 @@ import { HttpClientModule } from '@angular/common/http';
     InputMaskModule,
     ReactiveFormsModule,
     PasswordModule,
+    MessagesModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
+  private _formBuilder = inject(FormBuilder);
+  private _httpClient = inject(HttpClientModule);
   registerForm!: FormGroup;
   private _emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
   private _pswRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
-  private _formBuilder = inject(FormBuilder);
-  private _httpClient = inject(HttpClientModule);
+  formHasErrorAndTouched = hasErrorAndTouched;
   ngOnInit() {
     this.registerForm = this._formBuilder.group({
       firstName: ['', Validators.required],

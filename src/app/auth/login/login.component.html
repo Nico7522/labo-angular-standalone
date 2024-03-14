@@ -1,19 +1,26 @@
 <h1>Se connecter</h1>
-<form class="login-form" action="">
+<form [formGroup]="loginForm" class="flex flex-column align-center" action="">
     <p-inputGroup>
         <p-inputGroupAddon>
             <i class="pi pi-at"></i>
         </p-inputGroupAddon>
-        <input type="email" pInputText placeholder="Email" />
+        <input formControlName="email"  type="email" pInputText placeholder="Email" />
     </p-inputGroup>
+    @if (formHasErrorAndTouched(loginForm, 'email', 'pattern')) {
+        <small class="p-error text-center">Email invalide</small>
+    }
     
     <p-inputGroup>
         <p-inputGroupAddon>
             <i class="pi pi-key"></i>
         </p-inputGroupAddon>
-        <input type="password" pInputText placeholder="Mot de passe" />
+        <input formControlName="password" type="password" pInputText placeholder="Mot de passe" />
     </p-inputGroup>
-    <div class="btn">
+    @if (formHasErrorAndTouched(loginForm, 'password', 'pattern')) {
+        <small class="p-error text-center">Mot de passe invalide</small>
+
+    }
+    <div class="flex justify-content-center mt-2">
         <p-button (onClick)="login()" severity="success">Se connecter</p-button>
         <p-button (onClick)="closeDialog()" severity="danger">Retour</p-button>
     </div>

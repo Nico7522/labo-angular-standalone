@@ -1,41 +1,66 @@
 <h1>Créer un compte</h1>
 
 <form [formGroup]="registerForm" class="register-form" class="register-form">
-    <p-inputGroup>
-        <p-inputGroupAddon>
-            <i class="pi pi-user-edit"></i>
-        </p-inputGroupAddon>
-        <input formControlName="firstName" type="text" pInputText placeholder="Nom" />
-    </p-inputGroup>
-    <p-inputGroup>
-        <p-inputGroupAddon>
-            <i class="pi pi-user-edit"></i>
-        </p-inputGroupAddon>
-        <input formControlName="lastName" type="text" pInputText placeholder="Prénom" />
-    </p-inputGroup>
+    <div class="formgrid grid">
+        <p-inputGroup class="field col">
+            <p-inputGroupAddon>
+                <i class="pi pi-user-edit"></i>
+            </p-inputGroupAddon>
+            <input formControlName="firstName" type="text" pInputText placeholder="Nom" />
+        </p-inputGroup>
+        <p-inputGroup class="field col">
+            <p-inputGroupAddon>
+                <i class="pi pi-user-edit"></i>
+            </p-inputGroupAddon>
+            <input formControlName="lastName" type="text" pInputText placeholder="Prénom" />
+        </p-inputGroup>
+    </div>
+    <div class="flex justify-content-between flex-wrap w-6">
+        @if (formHasErrorAndTouched(registerForm, 'firstName', 'required')) {
+            <small class="p-error">Champs requis*</small>
+        }
+        @if (formHasErrorAndTouched(registerForm, 'lastName', 'required')) {
+            <small class="p-error">Champs requis*</small>
+        }
+    </div>
     <p-inputGroup>
         <p-inputGroupAddon>
             <i class="pi pi-at"></i>
         </p-inputGroupAddon>
         <input formControlName="email" type="email" pInputText placeholder="Email" />
     </p-inputGroup>
+    @if (formHasErrorAndTouched(registerForm, 'email', 'pattern')) {
+        <small class="p-error">Adresse email non valide</small>
+    }
+
     <p-inputGroup>
         <p-inputGroupAddon>
             <i class="pi pi-calendar"></i>
         </p-inputGroupAddon>
         <input formControlName="birthdate" type="date" pInputText placeholder="Date de naissance" />
     </p-inputGroup>
+    @if (formHasErrorAndTouched(registerForm, 'birthdate', 'required')) {
+        <small class="p-error">Champs requis*</small>
+    }
+
     <p-inputGroup>
         <p-inputGroupAddon>
             <i class="pi pi-phone"></i>
         </p-inputGroupAddon>
         <p-inputMask formControlName="phoneNumber" [style]="{width: '100%'}" class="mask" mask="999-99-99-99" placeholder="999-99-99-99"></p-inputMask>
     </p-inputGroup>
+    @if (formHasErrorAndTouched(registerForm, 'phoneNumber', 'required')) {
+        <small class="p-error">Champs requis*</small>
+    }
+
     <p-inputGroup>
         <p-inputGroupAddon>
             <i class="pi pi-key"></i>
         </p-inputGroupAddon>
-        <p-password [style]="{width: '100%'}" formControlName="password" weakLabel="Pas assez complexe" mediumLabel="Peu mieux faire ..." strongLabel="OK !" placeholder="Mot de passe" ></p-password>
-    </p-inputGroup>
+            <p-password [style]="{width: '100%'}" formControlName="password" weakLabel="Pas assez complexe" mediumLabel="Peu mieux faire ..." strongLabel="OK !" placeholder="Mot de passe" ></p-password>
+        </p-inputGroup>
+        @if (formHasErrorAndTouched(registerForm, 'password', 'pattern')) {
+            <small class="p-error">Mot de passe invalide</small>
+        }
     <p-button (onClick)="createAccount()" severity="success">Créer le compte</p-button>
 </form>
