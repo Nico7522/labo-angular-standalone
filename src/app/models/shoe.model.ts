@@ -1,3 +1,5 @@
+import { Category } from './category.model';
+
 export interface Shoe {
   productId: number;
   modelName: string;
@@ -7,7 +9,7 @@ export interface Shoe {
   image: string;
   price: number;
   discount: number;
-  categories: any[];
+  categories: Category[];
   sizes: AvailableSizes[];
 }
 

@@ -1,0 +1,34 @@
+<section class="card flex justify-content-center w-9 m-auto mt-6">
+    @if (shoe) {
+        <p-card class="p-6 box-shadow" [style]="{ width: '500px' }">
+            <ng-template class="box-shadow" pTemplate="header">
+                    <img alt="Card" [src]="img_url + '/images' + shoe.image" />
+                    <p-button class="flex justify-content-center" icon="pi pi-image"></p-button>
+                    <h2 class="ml-3">{{shoe.modelName}}</h2>
+                    <h3 class="ml-3">{{shoe.price | currency: 'EUR'}}</h3>
+            </ng-template>
+            <p-divider></p-divider>
+            <p-accordion>
+                <p-accordionTab header="Stock">
+                    <div >
+                        @for (size of shoe.sizes; track size) {
+                            <p>Taille {{size.size}} | Stock {{size.stock}}</p>
+                        }
+                    </div>
+                    <p-button>Editer</p-button>
+                </p-accordionTab>
+                <p-accordionTab header="Catégories">
+                    <div >
+                        @for (category of shoe.categories; track category) {
+                            <p>{{category.categoryName}}</p>
+                        }
+                    </div>
+                    <p-button>Editer</p-button>
+                </p-accordionTab>
+            </p-accordion>
+         
+        </p-card>
+    
+    }
+
+</section>

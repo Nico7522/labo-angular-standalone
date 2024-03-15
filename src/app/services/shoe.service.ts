@@ -13,7 +13,15 @@ export class ShoeService {
   constructor() {}
 
   // Simulation requête qui récupère les 20 produits les plus appréciés
+  // getAll(): Observable<Response<Shoe[]>> {
+  //   return this._httpClient.get<Response<Shoe[]>>(`${api.url}/product/top`);
+  // }
+
   getAll(): Observable<Response<Shoe[]>> {
-    return this._httpClient.get<Response<Shoe[]>>(`${api.url}/product/top`);
+    return this._httpClient.get<Response<Shoe[]>>(`${api.url}/product`);
+  }
+
+  getById(id: number): Observable<Response<Shoe>> {
+    return this._httpClient.get<Response<Shoe>>(`${api.url}/product/${id}`);
   }
 }
