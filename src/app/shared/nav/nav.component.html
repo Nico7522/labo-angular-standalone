@@ -5,9 +5,13 @@
     <ng-template pTemplate="end">
  
         <div class="auth">
-            @if (isLogged) {
-                <p-button (onClick)="logout()" severity="success" size="small" pRipple label="Se Déconnecter" class="p-button-success">
+            @if (isAdmin) {
+                <p-button routerLink="/admin" severity="success" size="small" pRipple label="Pannel admin" class="p-button-success">
                     <ng-icon size="1em" [svg]="loginIcon"/>
+                </p-button>
+            }
+            @if (isLogged) {
+                <p-button (onClick)="logout()" severity="danger" size="small" pRipple label="Se Déconnecter" class="p-button-success">
                 </p-button>
             } @else {
                 <p-button (onClick)="openLoginModal(true)" severity="success" size="small" pRipple label="Se connecter" class="p-button-success">

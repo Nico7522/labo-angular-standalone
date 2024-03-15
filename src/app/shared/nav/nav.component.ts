@@ -30,10 +30,12 @@ export class NavComponent {
   loginIcon = matLogInOutline;
   registerIcon = bootstrapPersonAdd;
   isLogged: boolean | undefined;
+  isAdmin: boolean | null = null;
 
   constructor() {
     effect(() => {
       this.isLogged = this._tokenService.tokenSignal();
+      this.isAdmin = this._tokenService.checkIsAdmin();
     });
   }
   ngOnInit() {

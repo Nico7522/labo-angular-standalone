@@ -1,1 +1,31 @@
-<p>admin works!</p>
+<div class="box-shadow flex flex-column xl:flex-row w-11 m-auto mt-6 justify-content-between align-items-center p-6">
+    <p-card header="Produits"  [style]="{ maxWidth: '360px' }">
+        <ng-template pTemplate="header">
+            <img alt="Card" src="../../assets/product.png" />
+        </ng-template>
+   
+        <ng-template pTemplate="footer">
+            <p-button routerLink="/admin/articles" label="Gérer les produits"></p-button>
+        </ng-template>
+    </p-card>
+
+    <p-card header="Utilisateurs"  [style]="{ maxWidth: '360px'  }">
+        <ng-template pTemplate="header">
+            <img alt="Card" src="../../assets/user.jpg" />
+        </ng-template>
+   
+        <ng-template pTemplate="footer">
+            <p-button routerLink="/admin/users" label="Gérer les utilisateurs"></p-button>
+        </ng-template>
+    </p-card>
+
+    <p-card header="Commandes"  [style]="{ maxWidth: '360px'  }">
+        <ng-template pTemplate="header">
+            <img alt="Card" src="../../assets/stock.webp" />
+        </ng-template>
+   
+        <ng-template pTemplate="footer">
+            <p-button routerLink="/admin/orders" label="Gérer les commandes"></p-button>
+        </ng-template>
+    </p-card>
+</div>

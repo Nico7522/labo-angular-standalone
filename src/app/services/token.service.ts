@@ -25,6 +25,13 @@ export class TokenService {
     this.tokenSignal.set(this.isTokenExist);
   }
 
+  checkIsAdmin(): boolean | null {
+    if (this.isTokenExist) {
+      return this.decodeToken().role === 'Admin';
+    }
+    return null;
+  }
+
   decodeToken(): TokenInfos {
     let token: string = localStorage.getItem('token') ?? '';
     let jwt: any;

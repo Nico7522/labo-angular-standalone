@@ -16,7 +16,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { catchError, of } from 'rxjs';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -64,7 +63,7 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this._authService.login(this.loginForm.value).subscribe({
         next: (token) => console.log(token),
-        error: (err) => console.log(err),
+        error: (err) => (this.error = 'Informations incorrectes.'),
       });
     }
     this._messageService.add({
