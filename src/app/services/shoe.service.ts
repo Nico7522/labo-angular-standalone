@@ -13,11 +13,6 @@ export class ShoeService {
   shoeToEdit: WritableSignal<Shoe | null> = signal(null);
   constructor() {}
 
-  // Simulation requête qui récupère les 20 produits les plus appréciés
-  // getAll(): Observable<Response<Shoe[]>> {
-  //   return this._httpClient.get<Response<Shoe[]>>(`${api.url}/product/top`);
-  // }
-
   signalShoeToEdit(shoe: Shoe) {
     this.shoeToEdit.set(shoe);
   }
@@ -28,5 +23,16 @@ export class ShoeService {
 
   getById(id: number): Observable<Response<Shoe>> {
     return this._httpClient.get<Response<Shoe>>(`${api.url}/product/${id}`);
+  }
+
+  editStock(
+    sizeId: number,
+    shoeId: number,
+    stock: number
+  ): Observable<Response<Shoe>> {
+    return this._httpClient.patch<Response<Shoe>>(
+      `${api.url}/product/stock/${sizeId}/${shoeId}`,
+      { stock }
+    );
   }
 }

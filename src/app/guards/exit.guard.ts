@@ -7,7 +7,6 @@ export const exitGuard: CanDeactivateFn<CanExit> = (
   currentState,
   nextState
 ) => {
-  console.log(component.isDirty());
   return (
     !component.isDirty() || window.confirm('Voulez-vous vraiment quitter ?')
   );
