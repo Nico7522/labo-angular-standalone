@@ -8,6 +8,13 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { DividerModule } from 'primeng/divider';
 import { AccordionModule } from 'primeng/accordion';
 import { CurrencyPipe } from '@angular/common';
+import {
+  FileSelectEvent,
+  FileUploadEvent,
+  FileUploadHandlerEvent,
+  FileUploadModule,
+  UploadEvent,
+} from 'primeng/fileupload';
 @Component({
   selector: 'app-details',
   standalone: true,
@@ -18,6 +25,7 @@ import { CurrencyPipe } from '@angular/common';
     DividerModule,
     AccordionModule,
     CurrencyPipe,
+    FileUploadModule,
   ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss',
@@ -49,5 +57,14 @@ export class DetailsComponent {
     console.log((price - price * discount).toString());
 
     return (price - price * discount).toFixed(2).toString();
+  }
+
+  onChange(event: FileUploadHandlerEvent) {
+    // À envoyer en DB
+    console.log(event.files[0]);
+  }
+
+  signalEdit() {
+    this._shoeService.signalShoeToEdit(this.shoe as Shoe);
   }
 }

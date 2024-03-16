@@ -1,0 +1,57 @@
+<h1>Editer les détails de base</h1>
+@defer (when shoe) {
+    @if (editForm) {
+        <form class="flex flex-column justify-content-center w-9 m-auto" [formGroup]="editForm" action="">
+            <p-inputGroup>
+                <p-inputGroupAddon>
+                    <i class="pi pi-pencil"></i>
+                </p-inputGroupAddon>
+                <p-floatLabel >
+                    <input formControlName="modelName" pInputText placeholder="Nom du modèle" />
+                    <label for="modelName">Nom du modèle</label>
+                </p-floatLabel>
+                </p-inputGroup>
+
+            <p-inputGroup>
+                <p-inputGroupAddon>
+                    <i class="pi pi-pencil"></i>
+                </p-inputGroupAddon>
+                <p-floatLabel>
+                    <input formControlName="description" pInputText placeholder="Description" />
+                    <label for="description">Description</label>
+                </p-floatLabel>
+            </p-inputGroup>
+
+            <p-inputGroup>
+                <p-inputGroupAddon>
+                    <i class="pi pi-euro"></i>
+                </p-inputGroupAddon>
+                <p-floatLabel>
+                    <p-inputNumber formControlName="price" placeholder="Prix" />
+                    <label for="price">Prix</label>
+                </p-floatLabel>
+            </p-inputGroup>
+
+            <p-inputGroup>
+                <p-inputGroupAddon>
+                    <i class="pi pi-euro"></i>
+                </p-inputGroupAddon>
+                <p-floatLabel>
+                    <p-inputNumber formControlName="discount" placeholder="Promotion" />
+                    <label for="dicount">Promotion</label>
+                </p-floatLabel>
+            </p-inputGroup>
+
+            <div class="flex flex-row justify-content-center m-3">
+                <p-button class="mr-3" size="small" severity="success">Editer</p-button>
+                <p-button routerLink="/admin/articles/details/{{shoe?.productId}}" size="small" severity="danger">Annuler</p-button>
+
+            </div>
+        </form>
+    }
+
+
+} @placeholder {
+    <p>???</p>
+}
+

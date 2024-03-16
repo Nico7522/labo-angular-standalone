@@ -2,33 +2,54 @@
     @if (shoe) {
         <p-card class="p-6 box-shadow" [style]="{ width: '500px' }">
             <ng-template class="box-shadow" pTemplate="header">
-                    <img alt="Card" [src]="img_url + '/images' + shoe.image" />
-                    <p-button class="flex justify-content-center" icon="pi pi-image"></p-button>
+                    <img alt="Card" [src]="img_url + '/images/' + shoe.image" />
+                    <div class="flex flex-row justify-content-center">
+                        <p-fileUpload [customUpload]="true"  mode="basic" name="file" accept="image/*" (uploadHandler)="onChange($event)" [auto]="true" chooseLabel="Changer l'image"></p-fileUpload>
+
+                        <p-button (onClick)="signalEdit()" routerLink="/admin/articles/details/{{shoe.productId}}/edit" [style]="{fontWeight: '700'}"  class="flex justify-content-center ml-3">Editer le produit</p-button>
+
+                    </div>
+
                     <h2 class="ml-3">{{shoe.modelName}}</h2>
                     <h3 class="ml-3">{{shoe.price | currency: 'EUR'}}</h3>
+                    <p class="ml-3">{{shoe.description}}</p>
             </ng-template>
+
             <p-divider></p-divider>
+
+
             <p-accordion>
-                <p-accordionTab header="Stock">
-                    <div >
-                        @for (size of shoe.sizes; track size) {
-                            <p>Taille {{size.size}} | Stock {{size.stock}}</p>
-                        }
-                    </div>
-                    <p-button>Editer</p-button>
+                <p-accordionTab #showStock header="Stock">
+                    @defer (on interaction(showStock)) {
+                        <div >
+                            @for (size of shoe.sizes; track size) {
+                                <p>Taille {{size.size}} | Stock {{size.stock}}</p>
+                            }
+                            <p-button>Editer</p-button>
+                        </div>
+
+                    } @placeholder {
+                        <p>Chargement ...</p>
+                    }
                 </p-accordionTab>
-                <p-accordionTab header="Catégories">
-                    <div >
-                        @for (category of shoe.categories; track category) {
-                            <p>{{category.categoryName}}</p>
-                        }
-                    </div>
-                    <p-button>Editer</p-button>
+                <p-accordionTab #showCategory header="Catégories">
+                    @defer (on interaction(showCategory)) {
+                        <div >
+                            @for (category of shoe.categories; track category) {
+                                <p>{{category.categoryName}}</p>
+                            }
+                            <p-button>Editer</p-button>
+                        </div>
+                    } @placeholder {
+                        <p>Chargement ...</p>
+                    }
                 </p-accordionTab>
             </p-accordion>
-         
         </p-card>
     
     }
+
+
+
 
 </section>

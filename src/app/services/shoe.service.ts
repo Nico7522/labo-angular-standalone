@@ -1,5 +1,5 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, WritableSignal, inject, signal } from '@angular/core';
 import { api } from '../../../environment/environment';
 import { Observable, map } from 'rxjs';
 import { Shoe } from '../models/shoe.model';
@@ -10,12 +10,17 @@ import { Response } from '../models/response.model';
 })
 export class ShoeService {
   _httpClient = inject(HttpClient);
+  shoeToEdit: WritableSignal<Shoe | null> = signal(null);
   constructor() {}
 
   // Simulation requête qui récupère les 20 produits les plus appréciés
   // getAll(): Observable<Response<Shoe[]>> {
   //   return this._httpClient.get<Response<Shoe[]>>(`${api.url}/product/top`);
   // }
+
+  signalShoeToEdit(shoe: Shoe) {
+    this.shoeToEdit.set(shoe);
+  }
 
   getAll(): Observable<Response<Shoe[]>> {
     return this._httpClient.get<Response<Shoe[]>>(`${api.url}/product`);
