@@ -25,7 +25,7 @@ import {
 import { EditStockComponent } from '../edit-stock/edit-stock.component';
 import { DialogService } from '../../../services/dialog.service';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -39,6 +39,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
   selector: 'app-details',
   standalone: true,
   imports: [
+    ReactiveFormsModule,
     CardModule,
     ButtonModule,
     SplitButtonModule,
@@ -66,13 +67,15 @@ export class DetailsComponent {
   private _confirmationService = inject(ConfirmationService);
   private _messageService = inject(MessageService);
   private _sizeService = inject(SizeService);
+
+  private _formBuilder = inject(FormBuilder)
   sizes: WritableSignal<Size[]> = signal([]);
   edit: boolean = false;
   sizeStock: FormControl = new FormControl('');
   newCategory: FormControl = new FormControl('');
   newSize: FormControl = new FormControl('');
   newStock: FormControl = new FormControl('');
-
+  sizeStockForm: FormGroup | null = null;
   sizeId: number = 0;
   shoe: Shoe | undefined;
   img_url = api.img_url;
@@ -97,10 +100,24 @@ export class DetailsComponent {
     });
   }
 
+  ngOnInit() {
+    this.sizeStockForm = this._formBuilder.group({
+      sizeId: [''],
+      stock: ['']
+    })
+  }
+
   getSizes() {
     this._sizeService.getAll().subscribe({
       next: (sizes) => this.sizes.set(sizes),
     });
+  }
+
+  handleSizeStock() {
+    if(this.sizeStockForm?.valid) {
+      console.log(this.sizeStockForm.value);
+      
+    }
   }
 
   getCategories() {}
