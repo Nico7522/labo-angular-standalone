@@ -26,7 +26,7 @@ import { CartService } from '../../services/cart.service';
 export class NavComponent {
   private _dialogService = inject(DialogService);
   private _tokenService = inject(TokenService);
-  private _cartService = inject(CartService)
+  private _cartService = inject(CartService);
   dialogState: boolean | undefined;
   items: MenuItem[] | undefined;
   loginIcon = matLogInOutline;
@@ -39,7 +39,7 @@ export class NavComponent {
     effect(() => {
       this.isLogged = this._tokenService.tokenSignal();
       this.isAdmin = this._tokenService.checkIsAdmin();
-      this.cartLength = this._cartService.cartLength()
+      this.cartLength = this._cartService.cartLength();
     });
   }
   ngOnInit() {

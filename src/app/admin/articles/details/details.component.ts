@@ -1,4 +1,11 @@
-import { Component, Input, inject } from '@angular/core';
+import {
+  Component,
+  Input,
+  ViewEncapsulation,
+  WritableSignal,
+  inject,
+  signal,
+} from '@angular/core';
 import { ShoeService } from '../../../services/shoe.service';
 import { Shoe } from '../../../models/shoe.model';
 import { CardModule } from 'primeng/card';
@@ -22,7 +29,12 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-
+import { InputTextModule } from 'primeng/inputtext';
+import { ListboxModule } from 'primeng/listbox';
+import { SizeService } from '../../../services/size.service';
+import { Size } from '../../../models/size.model';
+import { DropdownModule } from 'primeng/dropdown';
+import { FloatLabelModule } from 'primeng/floatlabel';
 @Component({
   selector: 'app-details',
   standalone: true,
@@ -39,20 +51,33 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     ReactiveFormsModule,
     ToastModule,
     ConfirmDialogModule,
+    InputTextModule,
+    ListboxModule,
+    DropdownModule,
+    FloatLabelModule,
   ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss',
   providers: [MessageService, ConfirmationService],
+  encapsulation: ViewEncapsulation.None,
 })
 export class DetailsComponent {
   private _shoeService = inject(ShoeService);
   private _confirmationService = inject(ConfirmationService);
   private _messageService = inject(MessageService);
+  private _sizeService = inject(SizeService);
+  sizes: WritableSignal<Size[]> = signal([]);
   edit: boolean = false;
   sizeStock: FormControl = new FormControl('');
+  newCategory: FormControl = new FormControl('');
+  newSize: FormControl = new FormControl('');
+  newStock: FormControl = new FormControl('');
+
   sizeId: number = 0;
   shoe: Shoe | undefined;
   img_url = api.img_url;
+  newCategoryFieldOpen: boolean = false;
+  newSizeFieldOpen: boolean = false;
   items = [
     {
       label: 'Stock',
@@ -71,6 +96,14 @@ export class DetailsComponent {
       },
     });
   }
+
+  getSizes() {
+    this._sizeService.getAll().subscribe({
+      next: (sizes) => this.sizes.set(sizes),
+    });
+  }
+
+  getCategories() {}
 
   checkDiscount(price: number, discount: number): string {
     console.log((price - price * discount).toString());
@@ -110,7 +143,7 @@ export class DetailsComponent {
       });
   }
 
-  confirmDelete(event: Event) {
+  confirmDelete(event: Event, sizeId: number) {
     this._confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Voulez-vous vraiment supprimer cette donnée ?',
@@ -121,14 +154,18 @@ export class DetailsComponent {
       acceptIcon: 'none',
       rejectIcon: 'none',
 
-      // TODO: Ajouter la requête de suppression.
       accept: () => {
-        this._messageService.add({
-          severity: 'success',
-          detail: 'La donnée à bien été suprimée',
-          key: 'confirmUpdated',
-        });
-        console.log('cc');
+        this._shoeService
+          .deleteStock(this.shoe?.productId as number, sizeId)
+          .subscribe({
+            next: () => {
+              this._messageService.add({
+                severity: 'success',
+                detail: 'La donnée à bien été suprimée',
+                key: 'confirmUpdated',
+              });
+            },
+          });
       },
       reject: () => {
         this._messageService.add({
@@ -138,5 +175,14 @@ export class DetailsComponent {
         });
       },
     });
+  }
+
+  openNewCategoryField() {
+    this.newCategoryFieldOpen = true;
+  }
+
+  openNewSizeField() {
+    this.getSizes();
+    this.newSizeFieldOpen = true;
   }
 }

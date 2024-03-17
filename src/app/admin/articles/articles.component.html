@@ -16,22 +16,28 @@
 
     </p-toolbar>
 </div>
-<div class="flex flex-row flex-wrap align-item-center justify-content-center">
-    @for (shoe of shoes; track shoe.productId) {
-        <p-card class="p-6" header="Advanced Card" subheader="Card Subheader" [style]="{ width: '360px' }">
-            <ng-template pTemplate="header">
-                <img alt="Card" [src]="img_url + '/images/' + shoe.image" />
-            </ng-template>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
-                quas!
-            </p>
-            <ng-template pTemplate="footer">
-                <p-button routerLink="/admin/articles/details/{{shoe.productId}}" label="Editer" icon="pi pi-edit"><ng-icon size="1em" [svg]="editIcon"/></p-button>
-                <p-button label="Supprimer" icon="pi pi-times" styleClass="p-button-secondary" severity="danger" [style]="{ 'margin-left': '.5em' }"></p-button>
-            </ng-template>
-        </p-card>
-    
+@defer (when shoes.length > 0) {
+    @if (!error) {
+        <div class="flex flex-row flex-wrap align-item-center justify-content-center">
+            @for (shoe of shoes; track shoe.productId) {
+                <p-card class="p-6" header="Advanced Card" subheader="Card Subheader" [style]="{ width: '360px' }">
+                    <ng-template pTemplate="header">
+                        <img alt="Card" [src]="img_url + '/images/' + shoe.image" />
+                    </ng-template>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore sed consequuntur error repudiandae numquam deserunt quisquam repellat libero asperiores earum nam nobis, culpa ratione quam perferendis esse, cupiditate neque
+                        quas!
+                    </p>
+                    <ng-template pTemplate="footer">
+                        <p-button routerLink="/admin/articles/details/{{shoe.productId}}" label="Editer" icon="pi pi-edit"><ng-icon size="1em" [svg]="editIcon"/></p-button>
+                        <p-button label="Supprimer" icon="pi pi-times" styleClass="p-button-secondary" severity="danger" [style]="{ 'margin-left': '.5em' }"></p-button>
+                    </ng-template>
+                </p-card>
+            }
+        </div>
+    } @else {
+        <h2>Une erreur est survenue</h2>
     }
-
-</div>
+} @placeholder {
+    <h2 class="text-center">Chargement des articles ...</h2>
+}

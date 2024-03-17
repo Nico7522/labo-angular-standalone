@@ -30,6 +30,7 @@ export class ArticlesComponent {
   shoes: Shoe[] = [];
   editIcon = bootstrapPencilFill;
   img_url = api.img_url;
+  error: boolean = false;
   ngOnInit() {
     this.items = [
       {
@@ -45,7 +46,9 @@ export class ArticlesComponent {
     this._shoeService.getAll().subscribe({
       next: (res) => {
         this.shoes = res.data;
+        this.error = false;
       },
+      error: () => (this.error = true),
     });
   }
 }

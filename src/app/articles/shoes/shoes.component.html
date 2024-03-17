@@ -1,4 +1,5 @@
 <div class="card">
+    <p-button (onClick)="addToCart(1)" icon="pi pi-star-fill" [rounded]="true" severity="secondary" label="Ajouter au panier" />
     <p-carousel [circular]="true" [autoplayInterval]="3000" [value]="shoes" [numVisible]="3" [numScroll]="3" [circular]="false" [responsiveOptions]="responsiveOptions">
         <ng-template pTemplate="header">
             <h1>Produits les plus appréciés !</h1>
@@ -15,7 +16,6 @@
                     <div class="mt-5 flex align-items-center justify-content-center gap-2">
                         <p-button icon="pi pi-eye" [rounded]="true" />
                         <p-button icon="pi pi-star-fill" [rounded]="true" severity="secondary" />
-                        <p-button icon="pi pi-star-fill" [rounded]="true" severity="secondary" label="Ajouter au panier" />
 
                     </div>
                 </div>

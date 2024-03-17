@@ -34,15 +34,43 @@
       <p-accordionTab #showStock header="Stock">
         @defer (on interaction(showStock)) {
         <div>
-          @for (size of shoe.sizes; track size) {
+          @if (shoe.sizes.length > 0) { @for (size of shoe.sizes; track size) {
           <div class="flex flex-row justify-content-around align-items-center">
-            <p>Taille {{ size.size }} | Stock {{ size.stock }}</p>
+            <p class="flex-grow-1">
+              Taille {{ size.size }} | Stock {{ size.stock }}
+            </p>
             <i
               (click)="onEdit(true, size.stock, size.sizeId)"
-              class="pi pi-pencil"
+              class="pi pi-pencil mr-3"
             ></i>
-            <i (click)="confirmDelete($event)" class="pi pi-delete-left"></i>
+            <i
+              (click)="confirmDelete($event, size.sizeId)"
+              class="pi pi-delete-left flex-grow-0"
+            ></i>
           </div>
+          }
+          <p-button
+            class="block mb-3"
+            (onClick)="openNewSizeField()"
+            severity="success"
+            size="small"
+            [rounded]="true"
+            >Ajouter une taille</p-button
+          >
+
+          @if (newSizeFieldOpen) {
+            <form action="POST" class="flex flex-row align-items-center justify-content-center">
+              <div class="flex flex-column">
+                <p-dropdown [options]="sizes()" optionLabel="size" [showClear]="true" placeholder="Taille"></p-dropdown>
+              </div>
+              <div class="flex flex-column">
+                <p-floatLabel>
+                  <p-inputNumber [inputStyle]="{width:'100px'}" />
+                  <label for="stock">Stock</label>
+                </p-floatLabel>
+              </div>
+            <i class="pi pi-check ml-3" style="font-size: 1.5rem" color="green"></i>
+            </form>
           } @if (edit) {
           <div class="flex flex-row align-items-center">
             <p-inputNumber
@@ -57,6 +85,8 @@
               color="green"
             ></i>
           </div>
+          } } @else {
+          <p>Aucun stock disponible</p>
           }
           <p-toast position="bottom-center" key="confirmUpdated"></p-toast>
           <p-confirmDialog [closeOnEscape]="true"></p-confirmDialog>
@@ -69,10 +99,37 @@
       <p-accordionTab #showCategory header="Catégories">
         @defer (on interaction(showCategory)) {
         <div>
-          @for (category of shoe.categories; track category) {
-          <p>{{ category.categoryName }}</p>
+          @if (shoe.categories.length > 0) { @for (category of shoe.categories;
+          track category) {
+          <div class="flex flex-row justify-content-around align-items-center">
+            <p class="flex-grow-1">{{ category.categoryName }}</p>
+
+            <i class="pi pi-delete-left flex-grow-0"></i>
+          </div>
           }
-          <p-button>Editer</p-button>
+          <p-button
+            class="block mb-3"
+            (onClick)="openNewCategoryField()"
+            severity="success"
+            size="small"
+            [rounded]="true"
+            >Ajouter une catégorie</p-button
+          >
+          @if (newCategoryFieldOpen) {
+          <input
+            placeholder="Nouvelle catégorie"
+            type="text"
+            pInputText
+            [formControl]="newCategory"
+          />
+          <i
+            class="pi pi-check ml-3"
+            style="font-size: 1.5rem"
+            color="green"
+          ></i>
+          } } @else {
+          <p>Aucune catégorie disponible</p>
+          }
         </div>
         } @placeholder {
         <p>Chargement ...</p>

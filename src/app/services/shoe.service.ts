@@ -35,4 +35,10 @@ export class ShoeService {
       { stock }
     );
   }
+
+  deleteStock(productId: number, sizeId: number): Observable<boolean> {
+    return this._httpClient.delete<boolean>(
+      `${api.url}/product/${productId}/size/${sizeId}`
+    );
+  }
 }

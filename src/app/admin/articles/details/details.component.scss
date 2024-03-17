@@ -2,3 +2,9 @@ i:hover {
   cursor: pointer;
   border: 1px solid black;
 }
+
+::ng-deep p-inputnumber,
+::ng-deep .p-inputnumber,
+::ng-deep .p-input-number-input {
+  width: 10% !important;
+}
