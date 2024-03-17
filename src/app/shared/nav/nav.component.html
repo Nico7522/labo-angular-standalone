@@ -12,6 +12,10 @@
             }
             @if (isLogged) {
                 <p-button (onClick)="logout()" severity="danger" size="small" pRipple label="Se Déconnecter" class="p-button-success">
+                </p-button>  
+                
+                <p-button severity="danger" size="small" pRipple  class="p-button-success">
+                    Panier {{ cartLength }}
                 </p-button>
             } @else {
                 <p-button (onClick)="openLoginModal(true)" severity="success" size="small" pRipple label="Se connecter" class="p-button-success">

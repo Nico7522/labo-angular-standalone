@@ -5,6 +5,7 @@ import { TagModule } from 'primeng/tag';
 import { Shoe } from '../../models/shoe.model';
 import { ShoeService } from '../../services/shoe.service';
 import { api } from '../../../../environment/environment';
+import { CartService } from '../../services/cart.service';
 @Component({
   selector: 'app-shoes',
   standalone: true,
@@ -15,7 +16,8 @@ import { api } from '../../../../environment/environment';
 export class ShoesComponent {
   shoes: Shoe[] = [];
   responsiveOptions: any[] | undefined;
-  _shoeService = inject(ShoeService);
+  private _shoeService = inject(ShoeService);
+  private _cartService = inject(CartService)
   img_url = api.img_url;
 
   ngOnInit() {
@@ -38,5 +40,9 @@ export class ShoesComponent {
     ];
 
     this._shoeService.getAll().subscribe((res) => (this.shoes = res.data));
+  }
+
+  addToCart(num: number) {
+    this._cartService.addToCart(num);
   }
 }

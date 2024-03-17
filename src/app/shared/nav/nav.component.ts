@@ -15,6 +15,7 @@ import { matLogInOutline } from '@ng-icons/material-icons/outline';
 import { bootstrapPersonAdd } from '@ng-icons/bootstrap-icons';
 import { NgIconComponent } from '@ng-icons/core';
 import { TokenService } from '../../services/token.service';
+import { CartService } from '../../services/cart.service';
 @Component({
   selector: 'app-nav',
   standalone: true,
@@ -25,17 +26,20 @@ import { TokenService } from '../../services/token.service';
 export class NavComponent {
   private _dialogService = inject(DialogService);
   private _tokenService = inject(TokenService);
+  private _cartService = inject(CartService)
   dialogState: boolean | undefined;
   items: MenuItem[] | undefined;
   loginIcon = matLogInOutline;
   registerIcon = bootstrapPersonAdd;
   isLogged: boolean | undefined;
   isAdmin: boolean | null = null;
+  cartLength: number = 0;
 
   constructor() {
     effect(() => {
       this.isLogged = this._tokenService.tokenSignal();
       this.isAdmin = this._tokenService.checkIsAdmin();
+      this.cartLength = this._cartService.cartLength()
     });
   }
   ngOnInit() {
