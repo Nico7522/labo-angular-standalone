@@ -4,6 +4,7 @@ import { api } from '../../../environment/environment';
 import { Observable, map } from 'rxjs';
 import { Shoe } from '../models/shoe.model';
 import { Response } from '../models/response.model';
+import { SizeStockForm } from '../models/form.model';
 
 @Injectable({
   providedIn: 'root',
@@ -40,5 +41,10 @@ export class ShoeService {
     return this._httpClient.delete<boolean>(
       `${api.url}/product/${productId}/size/${sizeId}`
     );
+  }
+
+  createNewStock(sizeStockForm: SizeStockForm) : Observable<Response<Shoe>> {
+    return this._httpClient.post<Response<Shoe>>( `${api.url}/product/${sizeStockForm.productId}/size/${sizeStockForm.stock}`, sizeStockForm.stock)
+
   }
 }
