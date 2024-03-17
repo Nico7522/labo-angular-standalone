@@ -1,4 +1,6 @@
 <section class="card flex justify-content-center w-9 m-auto mt-6">
+  <p-toast position="bottom-center" key="confirmUpdated"></p-toast>
+
   @if (shoe) {
   <p-card class="p-6 box-shadow" [style]="{ width: '500px' }">
     <ng-template class="box-shadow" pTemplate="header">
@@ -48,6 +50,8 @@
               class="pi pi-delete-left flex-grow-0"
             ></i>
           </div>
+          } } @else {
+          <p>Aucun stock disponible</p>
           }
           <p-button
             class="block mb-3"
@@ -81,12 +85,7 @@
                 <label for="stock">Stock</label>
               </p-floatLabel>
             </div>
-            <i
-              class="pi pi-check ml-3"
-              (click)="handleSizeStock()"
-              style="font-size: 1.5rem"
-              color="green"
-            ></i>
+            <p-button (click)="handleSizeStock()" icon="pi pi-check"></p-button>
           </form>
           } @if (edit) {
           <div class="flex flex-row align-items-center">
@@ -102,10 +101,7 @@
               color="green"
             ></i>
           </div>
-          } } @else {
-          <p>Aucun stock disponible</p>
           }
-          <p-toast position="bottom-center" key="confirmUpdated"></p-toast>
           <p-confirmDialog [closeOnEscape]="true"></p-confirmDialog>
         </div>
 
@@ -123,6 +119,8 @@
 
             <i class="pi pi-delete-left flex-grow-0"></i>
           </div>
+          } } @else {
+          <p>Aucune catégorie disponible</p>
           }
           <p-button
             class="block mb-3"
@@ -133,19 +131,23 @@
             >Ajouter une catégorie</p-button
           >
           @if (newCategoryFieldOpen) {
-          <input
-            placeholder="Nouvelle catégorie"
-            type="text"
-            pInputText
-            [formControl]="newCategory"
-          />
-          <i
-            class="pi pi-check ml-3"
-            style="font-size: 1.5rem"
-            color="green"
-          ></i>
-          } } @else {
-          <p>Aucune catégorie disponible</p>
+
+          <form [formGroup]="categoryForm!" action="">
+            <p-listbox
+              [options]="categories()"
+              optionLabel="categoryName"
+              optionValue="categoryId"
+              formControlName="categoryId"
+              [style]="{ width: '15rem' }"
+              [multiple]="true"
+              [metaKeySelection]="false"
+              [listStyle]="{ 'max-height': '100px' }"
+            ></p-listbox>
+            <p-button
+              (onClick)="handleCategory()"
+              icon="pi pi-check"
+            ></p-button>
+          </form>
           }
         </div>
         } @placeholder {

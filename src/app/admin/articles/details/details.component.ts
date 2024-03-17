@@ -25,7 +25,12 @@ import {
 import { EditStockComponent } from '../edit-stock/edit-stock.component';
 import { DialogService } from '../../../services/dialog.service';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -35,6 +40,12 @@ import { SizeService } from '../../../services/size.service';
 import { Size } from '../../../models/size.model';
 import { DropdownModule } from 'primeng/dropdown';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import {
+  AddCategoryToProductForm,
+  SizeStockForm,
+} from '../../../models/form.model';
+import { CategoryService } from '../../../services/category.service';
+import { Category } from '../../../models/category.model';
 @Component({
   selector: 'app-details',
   standalone: true,
@@ -67,15 +78,20 @@ export class DetailsComponent {
   private _confirmationService = inject(ConfirmationService);
   private _messageService = inject(MessageService);
   private _sizeService = inject(SizeService);
+  private _categoryService = inject(CategoryService);
 
-  private _formBuilder = inject(FormBuilder)
+  private _formBuilder = inject(FormBuilder);
   sizes: WritableSignal<Size[]> = signal([]);
+  categories: WritableSignal<Category[]> = signal([]);
+
   edit: boolean = false;
   sizeStock: FormControl = new FormControl('');
   newCategory: FormControl = new FormControl('');
   newSize: FormControl = new FormControl('');
   newStock: FormControl = new FormControl('');
   sizeStockForm: FormGroup | null = null;
+  categoryForm: FormGroup | null = null;
+
   sizeId: number = 0;
   shoe: Shoe | undefined;
   img_url = api.img_url;
@@ -103,8 +119,12 @@ export class DetailsComponent {
   ngOnInit() {
     this.sizeStockForm = this._formBuilder.group({
       sizeId: [''],
-      stock: ['']
-    })
+      stock: [''],
+    });
+
+    this.categoryForm = this._formBuilder.group({
+      categoryId: [''],
+    });
   }
 
   getSizes() {
@@ -114,13 +134,64 @@ export class DetailsComponent {
   }
 
   handleSizeStock() {
-    if(this.sizeStockForm?.valid) {
-      console.log(this.sizeStockForm.value);
-      
+    if (this.sizeStockForm?.valid) {
+      let sizeStockForm: SizeStockForm = {
+        productId: this.shoe?.productId as number,
+        sizeId: this.sizeStockForm.get('sizeId')?.value,
+        stock: this.sizeStockForm.get('stock')?.value,
+      };
+
+      this._shoeService.createNewStock(sizeStockForm).subscribe({
+        next: () => {
+          this._messageService.add({
+            key: 'confirmUpdated',
+            detail: 'Taille et stock ajoutés !',
+            severity: 'success',
+          });
+        },
+        error: () => {
+          this._messageService.add({
+            severity: 'error',
+            detail: 'Une erreur est survenue.',
+            key: 'confirmUpdated',
+          });
+        },
+      });
     }
   }
 
-  getCategories() {}
+  getCategories() {
+    this._categoryService.getAll().subscribe({
+      next: (categories) => this.categories.set(categories),
+    });
+  }
+
+  // TODO: à refaire
+  handleCategory() {
+    if (this.categoryForm?.valid) {
+      this._shoeService
+        .addCategoryToProduct(
+          this.shoe?.productId!,
+          this.categoryForm.get('categoryId')?.value
+        )
+        .subscribe({
+          next: () => {
+            this._messageService.add({
+              key: 'confirmUpdated',
+              detail: 'Catégorie ajoutée !',
+              severity: 'success',
+            });
+          },
+          error: () => {
+            this._messageService.add({
+              severity: 'error',
+              detail: 'Une erreur est survenue.',
+              key: 'confirmUpdated',
+            });
+          },
+        });
+    }
+  }
 
   checkDiscount(price: number, discount: number): string {
     console.log((price - price * discount).toString());
@@ -195,6 +266,7 @@ export class DetailsComponent {
   }
 
   openNewCategoryField() {
+    this.getCategories();
     this.newCategoryFieldOpen = true;
   }
 

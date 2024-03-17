@@ -4,7 +4,7 @@ import { api } from '../../../environment/environment';
 import { Observable, map } from 'rxjs';
 import { Shoe } from '../models/shoe.model';
 import { Response } from '../models/response.model';
-import { SizeStockForm } from '../models/form.model';
+import { AddCategoryToProductForm, SizeStockForm } from '../models/form.model';
 
 @Injectable({
   providedIn: 'root',
@@ -43,8 +43,22 @@ export class ShoeService {
     );
   }
 
-  createNewStock(sizeStockForm: SizeStockForm) : Observable<Response<Shoe>> {
-    return this._httpClient.post<Response<Shoe>>( `${api.url}/product/${sizeStockForm.productId}/size/${sizeStockForm.stock}`, sizeStockForm.stock)
+  createNewStock(sizeStockForm: SizeStockForm): Observable<Response<Shoe>> {
+    return this._httpClient.post<Response<Shoe>>(
+      `${api.url}/product/${sizeStockForm.productId}/size/${sizeStockForm.sizeId}`,
+      { stock: sizeStockForm.stock }
+    );
+  }
 
+  addCategoryToProduct(
+    productId: number,
+    form: AddCategoryToProductForm
+  ): Observable<Response<Shoe>> {
+    return this._httpClient.post<Response<Shoe>>(
+      `${api.url}/product/${productId}/category`,
+      {
+        categoryId: form,
+      }
+    );
   }
 }
